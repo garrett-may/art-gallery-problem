@@ -1,0 +1,9 @@
+.metadata
+.recommenders
+.settings
+.classpath
+.project
+
+/bin
+*.class
+*.txt
