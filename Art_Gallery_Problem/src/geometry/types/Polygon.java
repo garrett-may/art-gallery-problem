@@ -1,0 +1,50 @@
+package geometry.types;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import geometry.logic.Triangulator;
+
+public final class Polygon {
+
+	public final List<Point> points;
+	public final List<Line> segments;
+	public final List<Triangle> triangles;
+		
+	public Polygon(List<Point> room) {
+		this.points = new ArrayList<>();
+		this.segments = new ArrayList<>();
+		
+		for(Point point : room) {
+			points.add(new Point(point.x, point.y));
+		}
+		
+		int size = points.size();
+		for(int i = 0; i < size; i++) {
+			int j = (i + 1) % size;
+			segments.add(new Line(points.get(i), points.get(j)));
+		}
+		
+		this.triangles = Triangulator.triangulate(this);
+	}
+	
+	public boolean contains(Point point) {
+		for(Triangle triangle : triangles) {
+			if(triangle.contains(point)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public List<Point> intersections(Ray scanLine) {
+		List<Point> list = new ArrayList<>();
+		for(Line segment : segments) {
+			Point intersection = scanLine.intersection(segment);
+			if(intersection != null) {
+				list.add(intersection);
+			}
+		}
+		return list;
+	}
+}

@@ -3,11 +3,8 @@ package draw;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
-import javax.swing.border.Border;
-import javax.swing.border.CompoundBorder;
-import javax.swing.border.EmptyBorder;
 
-import geometry.MuseumRoom;
+import main.Museum;
 
 public class Window extends JFrame {
 
@@ -25,7 +22,7 @@ public class Window extends JFrame {
 		super.setVisible(true);
 	}
 	
-	public void drawMuseumRoom(MuseumRoom museumRoom) {
+	public void drawMuseumRoom(Museum museumRoom) {
 		canvas.museumRoom = museumRoom;
 		canvas.updateUI();
 	}
@@ -33,5 +30,4 @@ public class Window extends JFrame {
 	public void clear() {
 		canvas.museumRoom = null;
 	}
-	
 }

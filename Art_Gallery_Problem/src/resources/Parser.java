@@ -2,13 +2,14 @@ package resources;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Set;
 
-import geometry.MuseumRoom;
-import geometry.Point;
+import geometry.types.Point;
+import main.Museum;
 
 public class Parser {
 	
@@ -16,34 +17,37 @@ public class Parser {
 		return getClass().getResource(filename).getFile();
 	}
 	
-	public List<MuseumRoom> parse(String filename) throws FileNotFoundException {
-		List<MuseumRoom> museumRooms = new ArrayList<>();
+	public List<Museum> parse(String filename) throws FileNotFoundException {
+		List<Museum> museumRooms = new ArrayList<>();
 		File file = new File(filename);
 		try(Scanner scanner = new Scanner(file)) {
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine().substring(3).trim();
-				MuseumRoom museumRoom = parseMuseumRoom(line);
+				Museum museumRoom = parseMuseumRoom(line);
 				museumRooms.add(museumRoom);
 			}
 		}
 		return museumRooms;
 	}
 	
-	private MuseumRoom parseMuseumRoom(String string) {
+	private Museum parseMuseumRoom(String string) {
 		String[] half = string.trim().split(";");
 		String[] museum = half[0].trim().split("\\), ");
 		String[] guards = half.length > 1 ? half[1].trim().split("\\), \\(") : new String[0];
 		
-		MuseumRoom museumRoom = new MuseumRoom();
+		List<Point> points = new ArrayList<>();
+		Set<Point> guardPoints = new HashSet<>();
+		
 		for(String museumCoord : museum) {
 			Point point = parsePoint(museumCoord);
-			museumRoom.room.add(point);
+			points.add(point);
 		}
 		for(String guardCoord : guards) {
 			Point point = parsePoint(guardCoord);
-			museumRoom.guards.add(point);
+			guardPoints.add(point);
 		}
 		
+		Museum museumRoom = new Museum(points, guardPoints);
 		return museumRoom;
 	}
 	
