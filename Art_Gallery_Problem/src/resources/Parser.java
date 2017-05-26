@@ -50,7 +50,7 @@ public class Parser {
 			Point point = parsePoint(guardCoord);
 			guardPoints.add(point);
 		}
-		//guardPoints.removeIf(p -> p.x != -7 || p.y != 1);
+		//guardPoints.removeIf(p -> p.x != 8 || p.y != 2);
 		
 		Museum museumRoom = new Museum(points, guardPoints);
 		return museumRoom;

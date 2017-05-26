@@ -99,10 +99,10 @@ public final class VisibilityComputer {
 						
 					} else {
 						points.add(intersections.get(0));
-						if(intersections.get(0).x == -1) {
-							Point midpoint = new Line(scanLine.origin, intersections.get(0)).interpolate(0.5);
-							System.out.println("Polygon contains midpoint " + midpoint);
-							System.out.println("?: " + polygon.contains(midpoint));
+						if(intersections.get(0).x == 10.000000000002448) {
+							System.out.println(scanLine);
+							System.out.println("Midpoint: " + new Line(scanLine.origin, intersections.get(0)).interpolate(0.5));
+							System.out.println(polygon.contains(new Line(scanLine.origin, intersections.get(0)).interpolate(0.5)));
 						}
 					}				
 				}

@@ -32,12 +32,40 @@ public final class Triangulator {
 		return triangle.contains(point);
 	}
 	
+	private static boolean collinear(Point p1, Point p2, Point p3) {
+		if(p1.x == p2.x && p2.x == p3.x) {
+			return true;
+		}
+		if(p1.y == p2.y && p2.y == p3.y) {
+			return true;
+		}
+		if(new Line(p1, p2).contains(p3)) {
+			return true;
+		}
+		if(new Line(p1, p3).contains(p2)) {
+			return true;
+		}
+		if(new Line(p2, p1).contains(p3)) {
+			return true;
+		}
+		if(new Line(p2, p3).contains(p1)) {
+			return true;
+		}
+		if(new Line(p3, p1).contains(p2)) {
+			return true;
+		}
+		if(new Line(p3, p2).contains(p1)) {
+			return true;
+		}
+		return false;
+	}
+	
 	private static boolean isReflexAngle(int i, List<Point> points) {
 		Point prev = points.get(prev(i, points.size()));
 		Point curr = points.get(i);
 		Point next = points.get(next(i, points.size()));
-		return next.leftOf(new Line(prev, curr));
-	}
+		return next.leftOf(new Line(prev, curr)) || collinear(prev, curr, next);
+	}	
 	
 	private static Triangle findEar(List<Point> points) {
 		int size = points.size();
@@ -56,7 +84,7 @@ public final class Triangulator {
 				}
 				if(!concaveVertexFound) {
 					// Don't consider lines as triangles
-					if(!new Line(prev, next).contains(curr)) {
+					if(!collinear(prev, curr, next)) {
 						return triangle;
 					}
 				}
@@ -67,8 +95,7 @@ public final class Triangulator {
 			Point prev = points.get(prev(i, size));
 			Point curr = points.get(i);
 			Point next = points.get(next(i, size));
-			Line line = new Line(prev, next);
-			if(!line.contains(curr)) {
+			if(!collinear(prev, curr, next)) {
 				return new Triangle(prev, curr, next);
 			}
 		}
@@ -82,11 +109,12 @@ public final class Triangulator {
 	public static List<Triangle> triangulate(Polygon room) {
 		List<Point> points = room.points.stream().map(p -> new Point(p.x, p.y)).collect(Collectors.toList());
 		List<Triangle> triangles = new ArrayList<>();
-		while(points.size() > 2) {
+		while(points.size() > 3) {
 			Triangle ear = findEar(points);
 			triangles.add(ear);
 			points.remove(ear.p2);
 		}
+		triangles.add(new Triangle(points.get(0), points.get(1), points.get(2)));
 		return triangles;
 	}
 }
