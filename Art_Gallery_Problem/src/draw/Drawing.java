@@ -88,14 +88,7 @@ public final class Drawing {
 		
 		double bound = 0.03;
 		double ratio = canvasDimension.width < canvasDimension.height ? canvasDimension.width : canvasDimension.height;
-		
-		// TODO: Change back later. Testing purposes only
-		//xMin -= 5;
-		//xMax -= 5;
-		//yMin += 30;
-		//yMax += 30;
-		//ratio *= 3.0;
-		
+				
 		List<Point> newPoints = new ArrayList<>();
 		for(Point point : points) {
 			Point newPoint = new Point(

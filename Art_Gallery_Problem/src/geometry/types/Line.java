@@ -29,7 +29,7 @@ public final class Line implements Iterable<Point> {
 	
 	public boolean contains(Point point) {
 		Line subline = new Line(start, point);
-		return subline.angle == angle && subline.length <= length;
+		return Math.abs(subline.angle - angle) < 0.0000000001 && subline.length <= length;
 	}	
 	
 	public Point interpolate(double f) {

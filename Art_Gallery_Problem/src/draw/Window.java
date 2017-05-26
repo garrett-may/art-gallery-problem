@@ -34,9 +34,9 @@ public class Window extends JFrame {
 		} catch(Exception ex) {
 			
 		}
-		for(Triangle triangle : museumRoom.room.triangles) {
+		for(int i = 0; i < museumRoom.room.triangles.size(); i++) {
+			Triangle triangle = museumRoom.room.triangles.get(i);
 			JPanel panel = new JPanel() {
-
 				private static final long serialVersionUID = 1L;
 				
 				@Override
@@ -51,7 +51,7 @@ public class Window extends JFrame {
 			super.setContentPane(panel);
 			panel.updateUI();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(50);
 			} catch(Exception ex) {
 				
 			}
