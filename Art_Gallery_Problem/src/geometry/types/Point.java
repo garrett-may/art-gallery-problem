@@ -24,10 +24,6 @@ public final class Point {
 		return cross < 0;
 	}
 	
-	public int sideRelativeTo(Line line) {
-		return leftOf(line) ? 1 : -1;
-	}	
-	
 	@Override
 	public boolean equals(Object obj) {
 		if(!(obj instanceof Point)) {

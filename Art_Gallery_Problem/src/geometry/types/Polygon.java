@@ -32,9 +32,6 @@ public final class Polygon {
 	public boolean contains(Point point) {
 		for(Triangle triangle : triangles) {
 			if(triangle.contains(point)) {
-				if(point.equals(new Point(-4, -0.99980582140952))) {
-					System.out.println(triangle);
-				}
 				return true;
 			}
 		}

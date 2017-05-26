@@ -55,16 +55,28 @@ public final class Triangulator {
 					}
 				}
 				if(!concaveVertexFound) {
-					return triangle;
+					// Don't consider lines as triangles
+					if(!new Line(prev, next).contains(curr)) {
+						return triangle;
+					}
 				}
+			}
+		}
+		// Don't consider lines as triangles
+		for(int i = 0; i < size; i++) {
+			Point prev = points.get(prev(i, size));
+			Point curr = points.get(i);
+			Point next = points.get(next(i, size));
+			Line line = new Line(prev, next);
+			if(!line.contains(curr)) {
+				return new Triangle(prev, curr, next);
 			}
 		}
 		int i = 0;
 		Point prev = points.get(prev(i, size));
 		Point curr = points.get(i);
 		Point next = points.get(next(i, size));
-		Triangle triangle = new Triangle(prev, curr, next);
-		return triangle;
+		return new Triangle(prev, curr, next);
 	}
 	
 	public static List<Triangle> triangulate(Polygon room) {

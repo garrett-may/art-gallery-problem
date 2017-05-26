@@ -35,7 +35,6 @@ public final class Drawing {
 		for(Guard guard : museumRoom.guards) {
 			for(Point point : guard.guardView) {
 				drawPoint(graphics, point, museumRoom, canvasDimension);
-				System.out.println("Point in guard view: " + point);
 			}
 		}
 		graphics.setColor(Color.BLUE);
