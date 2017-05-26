@@ -1,9 +1,13 @@
 package draw;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
+import geometry.types.Triangle;
 import main.Museum;
 
 public class Window extends JFrame {
@@ -25,6 +29,33 @@ public class Window extends JFrame {
 	public void drawMuseumRoom(Museum museumRoom) {
 		canvas.museumRoom = museumRoom;
 		canvas.updateUI();
+		try {
+			Thread.sleep(100);
+		} catch(Exception ex) {
+			
+		}
+		for(Triangle triangle : museumRoom.room.triangles) {
+			JPanel panel = new JPanel() {
+
+				private static final long serialVersionUID = 1L;
+				
+				@Override
+				protected void paintComponent(Graphics graphics) {
+					graphics.setColor(Color.MAGENTA);
+					Drawing.drawTriangle(graphics, triangle, museumRoom, getSize());
+					graphics.setColor(Color.GREEN);
+					Drawing.drawPoint(graphics, triangle.p2, museumRoom, getSize());
+				}
+				
+			};
+			super.setContentPane(panel);
+			panel.updateUI();
+			try {
+				Thread.sleep(100);
+			} catch(Exception ex) {
+				
+			}
+		}		
 	}
 	
 	public void clear() {

@@ -21,33 +21,33 @@ public final class Drawing {
 	}
 	
 	public static final void drawMuseum(Graphics graphics, Museum museumRoom, Dimension canvasDimension) {
-		graphics.setColor(Color.DARK_GRAY);
+		graphics.setColor(Color.GRAY);
 		drawPolygon(graphics, museumRoom.room, museumRoom, canvasDimension);
 		graphics.setColor(Color.MAGENTA);
 		for(Triangle triangle : museumRoom.room.triangles) {
-			drawTriangle(graphics, triangle, museumRoom, canvasDimension);
+			//drawTriangle(graphics, triangle, museumRoom, canvasDimension);	
 		}
 		graphics.setColor(Color.YELLOW);
 		for(Guard guard : museumRoom.guards) {
-			drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);
+			//drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);
 		}
 		graphics.setColor(Color.ORANGE);
 		for(Guard guard : museumRoom.guards) {
 			for(Point point : guard.guardView) {
-				drawPoint(graphics, point, museumRoom, canvasDimension);
+				//drawPoint(graphics, point, museumRoom, canvasDimension);
 			}
 		}
 		graphics.setColor(Color.BLUE);
 		for(Guard guard : museumRoom.guards) {
-			drawPoint(graphics, guard.point, museumRoom, canvasDimension);
+			//drawPoint(graphics, guard.point, museumRoom, canvasDimension);
 		}	
 		graphics.setColor(Color.RED);
 		drawPoint(graphics, new Point(0, 0), museumRoom, canvasDimension);
-		int[][] coords = convertToViewport(museumRoom.room.points, museumRoom, canvasDimension);
-		graphics.drawPolygon(coords[0], coords[1], museumRoom.room.points.size());	
+		//int[][] coords = convertToViewport(museumRoom.room.points, museumRoom, canvasDimension);
+		//graphics.drawPolygon(coords[0], coords[1], museumRoom.room.points.size());	
 	}
 	
-	private static final void drawPoint(Graphics graphics, Point point, Museum museumRoom, Dimension canvasDimension) {
+	public static final void drawPoint(Graphics graphics, Point point, Museum museumRoom, Dimension canvasDimension) {
 		List<Point> points = Arrays.asList(new Point[] {point});
 		int[][] coords = convertToViewport(points, museumRoom, canvasDimension);
 		double ratio = canvasDimension.width < canvasDimension.height ? canvasDimension.width : canvasDimension.height;
@@ -65,7 +65,7 @@ public final class Drawing {
 		graphics.fillPolygon(coords[0], coords[1], points.size());		
 	}
 	
-	private static final void drawTriangle(Graphics graphics, Triangle triangle, Museum museumRoom, Dimension canvasDimension) {
+	public static final void drawTriangle(Graphics graphics, Triangle triangle, Museum museumRoom, Dimension canvasDimension) {
 		int[][] coords = convertToViewport(triangle, museumRoom, canvasDimension);
 		graphics.drawPolygon(coords[0], coords[1], coords[0].length);
 	}
@@ -88,6 +88,13 @@ public final class Drawing {
 		
 		double bound = 0.03;
 		double ratio = canvasDimension.width < canvasDimension.height ? canvasDimension.width : canvasDimension.height;
+		
+		// TODO: Change back later. Testing purposes only
+		//xMin -= 5;
+		//xMax -= 5;
+		//yMin += 30;
+		//yMax += 30;
+		//ratio *= 3.0;
 		
 		List<Point> newPoints = new ArrayList<>();
 		for(Point point : points) {

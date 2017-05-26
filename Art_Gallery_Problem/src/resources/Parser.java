@@ -24,7 +24,7 @@ public class Parser {
 			int i = 0;
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine().substring(3).trim();
-				if(i == 12) {
+				if(i == 18) {
 					Museum museumRoom = parseMuseumRoom(line);
 					museumRooms.add(museumRoom);
 				}

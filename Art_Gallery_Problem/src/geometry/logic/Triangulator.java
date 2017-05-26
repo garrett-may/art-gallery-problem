@@ -29,6 +29,9 @@ public final class Triangulator {
 				|| triangle.p3.equals(point)) {
 			return false;
 		}
+		if(!triangle.segments.stream().map(line -> line.contains(point)).filter(x -> x == true).collect(Collectors.toList()).isEmpty()) {
+			return true;
+		}
 		return triangle.contains(point);
 	}
 	
@@ -80,6 +83,7 @@ public final class Triangulator {
 					Point that = points.get(j);
 					if(isReflexAngle(j, points) && pointStrictlyInTriangle(triangle, that)) {
 						concaveVertexFound = true;
+						break;
 					}
 				}
 				if(!concaveVertexFound) {
@@ -90,15 +94,7 @@ public final class Triangulator {
 				}
 			}
 		}
-		// Don't consider lines as triangles
-		for(int i = 0; i < size; i++) {
-			Point prev = points.get(prev(i, size));
-			Point curr = points.get(i);
-			Point next = points.get(next(i, size));
-			if(!collinear(prev, curr, next)) {
-				return new Triangle(prev, curr, next);
-			}
-		}
+		System.out.println("Point size: " + points.size() + " | Couldn't find proper ear!!!");
 		int i = 0;
 		Point prev = points.get(prev(i, size));
 		Point curr = points.get(i);
