@@ -15,7 +15,7 @@ public class Main {
 		Parser parser = new Parser();
 		try {
 			List<Museum> museumRooms = parser.parse(parser.getResource("guards.txt"));	
-			window.drawMuseumRoom(museumRooms.get(3));
+			window.drawMuseumRoom(museumRooms.get(0));
 		} catch (FileNotFoundException e) {
 			
 		}

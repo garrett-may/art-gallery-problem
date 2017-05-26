@@ -15,6 +15,26 @@ public final class Ray {
 		this.angle = angle;
 	}
 	
+	public Ray(Point origin, Point target) {
+		this.origin = origin;
+		this.target = target;
+		
+		double angle = Math.atan2(target.y - origin.y, target.x - origin.x);
+		while(angle < 0) {
+			angle += 2 * Math.PI;
+		}
+		while(angle >= 2 * Math.PI) {
+			angle -= 2 * Math.PI;
+		}
+		this.angle = angle;
+	}
+	
+	public Ray(Point origin, Point target, double angle) {
+		this.origin = origin;
+		this.target = target;
+		this.angle = angle;
+	}
+	
 	public double length(Point point) {
 		return Math.sqrt(Math.pow(point.x - origin.x, 2) + Math.pow(point.y - origin.y, 2));
 	}

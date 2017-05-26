@@ -19,6 +19,10 @@ public final class Line implements Iterable<Point> {
 		this.length = Math.sqrt(Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2));
 	}
 	
+	public double angle() {
+		return angle;
+	}
+	
 	public double length() {
 		return length;
 	}

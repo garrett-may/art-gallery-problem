@@ -21,10 +21,14 @@ public class Parser {
 		List<Museum> museumRooms = new ArrayList<>();
 		File file = new File(filename);
 		try(Scanner scanner = new Scanner(file)) {
+			int i = 0;
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine().substring(3).trim();
-				Museum museumRoom = parseMuseumRoom(line);
-				museumRooms.add(museumRoom);
+				if(i == 7) {
+					Museum museumRoom = parseMuseumRoom(line);
+					museumRooms.add(museumRoom);
+				}
+				i += 1;
 			}
 		}
 		return museumRooms;

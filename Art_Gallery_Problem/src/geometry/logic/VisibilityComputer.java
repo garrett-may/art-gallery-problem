@@ -1,7 +1,9 @@
 package geometry.logic;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import geometry.types.Line;
 import geometry.types.Point;
@@ -14,14 +16,52 @@ public final class VisibilityComputer {
 		
 	}
 	
-	private static List<Ray> createScanLines(Point guard) {
+	private static int prev(int i, int size) {
+		return i <= 0 ? i - 1 + size : i - 1;
+	}
+	
+	private static int next(int i, int size) {
+		return i >= size - 1 ? i + 1 - size : i + 1;
+	}
+	
+	private static List<Ray> createScanLines(List<Point> points, Point guard) {
 		List<Ray> scanLines = new ArrayList<>();
+		// Rays to shot everywhere
 		double startAngle = 0;
 		double endAngle = 2 * Math.PI;
 		double step = endAngle / 11520;
 		for(double angle = startAngle; angle < endAngle; angle += step) {
 			scanLines.add(new Ray(guard, angle));
 		}
+		
+		// Ray to the guard
+		boolean guardInPoints = false;
+		int guardIndex = -1;
+		double[] angleMap = new double[points.size()];
+		for(int i = 0; i < points.size(); i++) {
+			Point point = points.get(i);
+			if(point.equals(guard)) {
+				guardInPoints = true;
+				guardIndex = i;
+			} else {
+				double angle = new Line(guard, point).angle();
+				while(angle < 0) {
+					angle += endAngle;
+				}
+				while(angle > endAngle) {
+					angle -= endAngle;
+				}
+				angleMap[i] = angle;
+			}			
+		}
+		if(guardInPoints) {
+			double a1 = angleMap[prev(guardIndex, points.size())];
+			double a2 = angleMap[next(guardIndex, points.size())];
+			scanLines.add(new Ray(guard, guard, (a2 - a1) / 2));
+		}
+		
+		// Re-sort
+		scanLines.sort((x, y) -> Double.compare(x.angle, y.angle));
 		return scanLines;
 	}
 	
@@ -44,15 +84,20 @@ public final class VisibilityComputer {
 	private static List<Point> getIntersectionPoints(Polygon polygon, List<Ray> scanLines) {
 		List<Point> points = new ArrayList<>();
 		for(Ray scanLine : scanLines) {
-			List<Point> intersections = getIntersections(scanLine, polygon.segments);
-			intersections.sort((x, y) -> Double.compare(scanLine.length(x), scanLine.length(y)));
-			if(intersections.size() > 0) {
-				if(rayFlyingOutOfPolygon(polygon, scanLine.origin, intersections.get(0))) {
-					
-				} else {
-					points.add(intersections.get(0));
-				}				
+			if(scanLine.origin.equals(scanLine.target)) {
+				points.add(scanLine.origin);
+			} else {
+				List<Point> intersections = getIntersections(scanLine, polygon.segments);
+				intersections.sort((x, y) -> Double.compare(scanLine.length(x), scanLine.length(y)));
+				if(intersections.size() > 0) {
+					if(rayFlyingOutOfPolygon(polygon, scanLine.origin, intersections.get(0))) {
+						
+					} else {
+						points.add(intersections.get(0));
+					}				
+				}
 			}
+			
 		}
 		return points;
 	}
@@ -70,10 +115,10 @@ public final class VisibilityComputer {
 	}
 	
 	public static List<Point> computeVisibilityPoints(Polygon room, Point guard) {
-		List<Ray> scanLines = createScanLines(guard);
+		List<Ray> scanLines = createScanLines(room.points, guard);
 		List<Point> polygon = new ArrayList<>();
 		if(room.points.contains(guard)) {
-			polygon.add(guard);
+			//polygon.add(guard);
 		}
 		polygon.addAll(getIntersectionPoints(room, scanLines));
 		polygon = optimise(polygon);

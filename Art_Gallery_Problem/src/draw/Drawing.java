@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import geometry.types.Line;
 import geometry.types.Point;
 import geometry.types.Polygon;
 import geometry.types.Triangle;
@@ -28,7 +29,8 @@ public final class Drawing {
 		}
 		graphics.setColor(Color.YELLOW);
 		for(Guard guard : museumRoom.guards) {
-			drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);
+			graphics.setColor(Color.YELLOW);
+			drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);		
 		}
 		graphics.setColor(Color.BLUE);
 		for(Guard guard : museumRoom.guards) {
@@ -44,9 +46,14 @@ public final class Drawing {
 		graphics.fillOval(coords[0][0] - diameter / 2, coords[1][0] - diameter / 2, diameter, diameter);
 	}
 	
+	private static final void drawLine(Graphics graphics, Line line, Museum museumRoom, Dimension canvasDimension) {
+		int[][] coords = convertToViewport(line, museumRoom, canvasDimension);
+		graphics.drawLine(coords[0][0], coords[1][0], coords[0][1], coords[1][1]);
+	}
+	
 	private static final void drawPoints(Graphics graphics, List<Point> points, Museum museumRoom, Dimension canvasDimension) {
 		int[][] coords = convertToViewport(points, museumRoom, canvasDimension);
-		graphics.fillPolygon(coords[0], coords[1], points.size());
+		graphics.fillPolygon(coords[0], coords[1], points.size());		
 	}
 	
 	private static final void drawTriangle(Graphics graphics, Triangle triangle, Museum museumRoom, Dimension canvasDimension) {
