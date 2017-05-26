@@ -21,14 +21,10 @@ public class Parser {
 		List<Museum> museumRooms = new ArrayList<>();
 		File file = new File(filename);
 		try(Scanner scanner = new Scanner(file)) {
-			int i = 0;
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine().substring(3).trim();
-				if(i == 18) {
-					Museum museumRoom = parseMuseumRoom(line);
-					museumRooms.add(museumRoom);
-				}
-				i += 1;
+				Museum museumRoom = parseMuseumRoom(line);
+				museumRooms.add(museumRoom);
 			}
 		}
 		return museumRooms;
@@ -50,7 +46,6 @@ public class Parser {
 			Point point = parsePoint(guardCoord);
 			guardPoints.add(point);
 		}
-		//guardPoints.removeIf(p -> p.x != 8 || p.y != 2);
 		
 		Museum museumRoom = new Museum(points, guardPoints);
 		return museumRoom;

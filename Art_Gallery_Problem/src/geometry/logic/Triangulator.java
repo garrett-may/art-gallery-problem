@@ -94,12 +94,7 @@ public final class Triangulator {
 				}
 			}
 		}
-		System.out.println("Point size: " + points.size() + " | Couldn't find proper ear!!!");
-		int i = 0;
-		Point prev = points.get(prev(i, size));
-		Point curr = points.get(i);
-		Point next = points.get(next(i, size));
-		return new Triangle(prev, curr, next);
+		return null;
 	}
 	
 	public static List<Triangle> triangulate(Polygon room) {
