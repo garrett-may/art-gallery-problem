@@ -24,7 +24,7 @@ public class Parser {
 			int i = 0;
 			while(scanner.hasNextLine()) {
 				String line = scanner.nextLine().substring(3).trim();
-				if(i == 7) {
+				if(i == 8) {
 					Museum museumRoom = parseMuseumRoom(line);
 					museumRooms.add(museumRoom);
 				}
@@ -50,6 +50,7 @@ public class Parser {
 			Point point = parsePoint(guardCoord);
 			guardPoints.add(point);
 		}
+		guardPoints.removeIf(p -> p.x != -7 || p.y != 1);
 		
 		Museum museumRoom = new Museum(points, guardPoints);
 		return museumRoom;

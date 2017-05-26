@@ -29,13 +29,23 @@ public final class Drawing {
 		}
 		graphics.setColor(Color.YELLOW);
 		for(Guard guard : museumRoom.guards) {
-			graphics.setColor(Color.YELLOW);
-			drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);		
+			drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);
+		}
+		graphics.setColor(Color.ORANGE);
+		for(Guard guard : museumRoom.guards) {
+			for(Point point : guard.guardView) {
+				drawPoint(graphics, point, museumRoom, canvasDimension);
+				System.out.println("Point in guard view: " + point);
+			}
 		}
 		graphics.setColor(Color.BLUE);
 		for(Guard guard : museumRoom.guards) {
 			drawPoint(graphics, guard.point, museumRoom, canvasDimension);
-		}		
+		}	
+		graphics.setColor(Color.RED);
+		drawPoint(graphics, new Point(0, 0), museumRoom, canvasDimension);
+		int[][] coords = convertToViewport(museumRoom.room.points, museumRoom, canvasDimension);
+		graphics.drawPolygon(coords[0], coords[1], museumRoom.room.points.size());	
 	}
 	
 	private static final void drawPoint(Graphics graphics, Point point, Museum museumRoom, Dimension canvasDimension) {

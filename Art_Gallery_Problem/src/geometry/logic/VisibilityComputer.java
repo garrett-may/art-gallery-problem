@@ -1,9 +1,7 @@
 package geometry.logic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import geometry.types.Line;
 import geometry.types.Point;
@@ -22,6 +20,16 @@ public final class VisibilityComputer {
 	
 	private static int next(int i, int size) {
 		return i >= size - 1 ? i + 1 - size : i + 1;
+	}
+	
+	private static double boundAngle(double angle, double lower, double upper) {
+		while(angle < lower) {
+			angle += 2 * Math.PI;
+		}
+		while(angle >= upper) {
+			angle -= 2 * Math.PI;
+		}
+		return angle;
 	}
 	
 	private static List<Ray> createScanLines(List<Point> points, Point guard) {
@@ -44,20 +52,17 @@ public final class VisibilityComputer {
 				guardInPoints = true;
 				guardIndex = i;
 			} else {
-				double angle = new Line(guard, point).angle();
-				while(angle < 0) {
-					angle += endAngle;
-				}
-				while(angle > endAngle) {
-					angle -= endAngle;
-				}
+				double angle = boundAngle(new Line(guard, point).angle(), 0, 2 * Math.PI);
 				angleMap[i] = angle;
 			}			
 		}
 		if(guardInPoints) {
 			double a1 = angleMap[prev(guardIndex, points.size())];
-			double a2 = angleMap[next(guardIndex, points.size())];
-			scanLines.add(new Ray(guard, guard, (a2 - a1) / 2));
+			double a2 = angleMap[next(guardIndex, points.size())];	
+			while(a2 < a1) {
+				a2 += 2 * Math.PI;
+			}
+			scanLines.add(new Ray(guard, guard, (a2 + a1) / 2));
 		}
 		
 		// Re-sort
@@ -94,6 +99,11 @@ public final class VisibilityComputer {
 						
 					} else {
 						points.add(intersections.get(0));
+						if(intersections.get(0).x == -1) {
+							Point midpoint = new Line(scanLine.origin, intersections.get(0)).interpolate(0.5);
+							System.out.println("Polygon contains midpoint " + midpoint);
+							System.out.println("?: " + polygon.contains(midpoint));
+						}
 					}				
 				}
 			}

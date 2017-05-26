@@ -54,4 +54,9 @@ public final class Triangle implements Iterable<Point> {
 	public int hashCode() {
 		return Hasher.hash(p1, p2, p3);
 	}
+	
+	@Override
+	public String toString() {
+		return "p1: " + p1 + " | p2: " + p2 + " | p3: " + p3;
+	}
 }

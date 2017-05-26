@@ -70,4 +70,9 @@ public final class Ray {
 	public int hashCode() {
 		return Hasher.hash(origin, angle);
 	}
+	
+	@Override
+	public String toString() {
+		return "Origin: " + origin + " | Angle: " + angle;
+	}
 }
