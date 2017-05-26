@@ -3,12 +3,14 @@ package geometry.types;
 import java.util.Arrays;
 import java.util.Iterator;
 
+import resources.Hasher;
+
 public final class Line implements Iterable<Point> {
 
-	public Point start;
-	public Point end;
-	private double angle;
-	private double length;
+	public final Point start;
+	public final Point end;
+	private final double angle;
+	private final double length;
 	
 	public Line(Point start, Point end) {
 		this.start = start;
@@ -33,6 +35,20 @@ public final class Line implements Iterable<Point> {
 	@Override
 	public Iterator<Point> iterator() {
 		return Arrays.asList(new Point[] {start, end}).iterator();
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(!(object instanceof Line)) {
+			return false;
+		}
+		Line that = (Line) object;
+		return this.start.equals(that.start) && this.end.equals(that.end);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Hasher.hash(start, end);
 	}
 	
 	@Override

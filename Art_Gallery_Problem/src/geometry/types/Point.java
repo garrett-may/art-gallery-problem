@@ -1,5 +1,7 @@
 package geometry.types;
 
+import resources.Hasher;
+
 public final class Point {
 
 	public final double x;
@@ -33,6 +35,11 @@ public final class Point {
 		}
 		Point that = (Point) obj;
 		return this.x == that.x && this.y == that.y;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Hasher.hash(x, y);		
 	}
 	
 	@Override

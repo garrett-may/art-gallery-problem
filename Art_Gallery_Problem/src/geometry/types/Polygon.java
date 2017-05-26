@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import geometry.logic.Triangulator;
+import resources.Hasher;
 
 public final class Polygon {
 
@@ -46,5 +47,19 @@ public final class Polygon {
 			}
 		}
 		return list;
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(!(object instanceof Polygon)) {
+			return false;
+		}
+		Polygon that = (Polygon) object;
+		return this.points.equals(that.points);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Hasher.hash(points);
 	}
 }

@@ -1,14 +1,18 @@
 package geometry.types;
 
+import resources.Hasher;
+
 public final class Ray {
 
 	private static final double MAX_DISTANCE = 10000;
-	public Point origin;
-	public Point target;
+	public final Point origin;
+	public final Point target;
+	public final double angle;
 	
 	public Ray(Point origin, double angle) {
 		this.origin = origin;
 		this.target = new Point(origin.x + Math.cos(angle) * MAX_DISTANCE, origin.y + Math.sin(angle) * MAX_DISTANCE); 
+		this.angle = angle;
 	}
 	
 	public double length(Point point) {
@@ -31,5 +35,19 @@ public final class Ray {
 		} else {
 			return null;
 		}
-	}	
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(!(object instanceof Ray)) {
+			return false;
+		}
+		Ray that = (Ray) object;
+		return this.origin.equals(that.origin) && this.angle == that.angle;
+	}
+	
+	@Override
+	public int hashCode() {
+		return Hasher.hash(origin, angle);
+	}
 }

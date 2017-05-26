@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import resources.Hasher;
+
 public final class Triangle implements Iterable<Point> {
 
 	public final Point p1;
@@ -35,5 +37,21 @@ public final class Triangle implements Iterable<Point> {
 	@Override
 	public Iterator<Point> iterator() {
 		return Arrays.asList(new Point[] {p1, p2, p3}).iterator();
+	}
+	
+	@Override
+	public boolean equals(Object object) {
+		if(!(object instanceof Triangle)) {
+			return false;
+		}
+		Triangle that = (Triangle) object;
+		return this.p1.equals(that.p1)
+				&& this.p2.equals(that.p2)
+				&& this.p3.equals(that.p3);
+	}
+	
+	@Override
+	public int hashCode() {
+		return Hasher.hash(p1, p2, p3);
 	}
 }

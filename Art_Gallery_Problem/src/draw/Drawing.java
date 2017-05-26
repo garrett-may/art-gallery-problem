@@ -29,12 +29,10 @@ public final class Drawing {
 		graphics.setColor(Color.YELLOW);
 		for(Guard guard : museumRoom.guards) {
 			drawPoints(graphics, guard.guardView, museumRoom, canvasDimension);
-			break;
 		}
 		graphics.setColor(Color.BLUE);
 		for(Guard guard : museumRoom.guards) {
 			drawPoint(graphics, guard.point, museumRoom, canvasDimension);
-			break;
 		}		
 	}
 	
