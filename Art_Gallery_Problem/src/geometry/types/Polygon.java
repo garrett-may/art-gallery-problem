@@ -49,6 +49,17 @@ public final class Polygon {
 		return list;
 	}
 	
+	public List<Point> intersections(Line line) {
+		List<Point> list = new ArrayList<>();
+		for(Line segment : segments) {
+			Point intersection = line.intersection(segment);
+			if(intersection != null) {
+				list.add(intersection);
+			}
+		}
+		return list;
+	}
+	
 	@Override
 	public boolean equals(Object object) {
 		if(!(object instanceof Polygon)) {

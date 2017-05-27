@@ -6,7 +6,9 @@ import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import geometry.logic.MissingAreasComputer;
 import geometry.types.Line;
 import geometry.types.Point;
 import geometry.types.Polygon;
@@ -34,7 +36,13 @@ public final class Drawing {
 		graphics.setColor(Color.BLUE);
 		for(Guard guard : museumRoom.guards) {
 			drawPoint(graphics, guard.point, museumRoom, canvasDimension);
-		}				
+		}			
+		graphics.setColor(Color.RED);
+		List<List<Point>> missingAreas = MissingAreasComputer.computeMissingAreas(
+				museumRoom.room, museumRoom.guards.stream().map(g -> g.guardView).collect(Collectors.toSet()));
+		for(List<Point> missingArea : missingAreas) {
+			drawPoints(graphics, missingArea, museumRoom, canvasDimension);
+		}
 	}
 	
 	private static final void drawPoint(Graphics graphics, Point point, Museum museumRoom, Dimension canvasDimension) {
@@ -97,6 +105,5 @@ public final class Drawing {
 		}
 		
 		return new int[][] {xCoords, yCoords};
-	}
-	
+	}	
 }
